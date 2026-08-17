@@ -24,3 +24,31 @@ function operate(first, second, operator) {
       break;
   };
 };
+
+function buildButtons() {
+  const buttonArray = "0123456789+-*/=".split("");
+  const buttons = buttonArray.map((button) => document.createElement("button"));
+  buttons.forEach((button, i) => {
+    button.id = `${buttonArray[i]}-button`;
+    button.value = buttonArray[i];
+    button.textContent = buttonArray[i];
+    button.classList.add(button.value.match(/[0-9]/) ? "digit" : "operator");
+  });
+  return buttons;
+};
+
+function buildCalculator() {
+  const container = document.createElement("div");
+  container.id = "calculator-container";
+
+  const display = document.createElement("div");
+  display.id = "display";
+  container.appendChild(display);
+
+  const buttons = buildButtons();
+  buttons.forEach(button => container.appendChild(button));
+
+  document.body.appendChild(container);
+};
+
+buildCalculator();
