@@ -58,7 +58,7 @@ function clearCalculator() {
 };
 
 function processDigitInput(v) {
-  if (!first || (!isNaN(first) && !operator)) {
+  if (!first) {
     first = v;
   } else if (!operator) {
     first += v;
@@ -76,17 +76,22 @@ function processCalculation() {
   return;
 };
 
+function processEquals() {
+  if (!operator || !second) {
+    return;
+  } else {
+    processCalculation();
+    return;
+  };
+};
+
 function processOperatorInput(v) {
   if (v === "C") {
     clearCalculator();
     return;
   } else if (v === "=") {
-    if (!operator || !second) {
-      return;
-    } else {
-      processCalculation();
-      return;
-    };
+    processEquals();
+    return;
   } else if (!!operator && !!second) {
     processCalculation();
     operator = v;
