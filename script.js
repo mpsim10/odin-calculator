@@ -80,16 +80,21 @@ function processOperatorInput(v) {
   if (v === "C") {
     clearCalculator();
     return;
-  } else if (v === "=" || !!second) {
-    if (!operator) {
+  } else if (v === "=") {
+    if (!operator || !second) {
       return;
     } else {
       processCalculation();
       return;
     };
+  } else if (!!operator && !!second) {
+    processCalculation();
+    operator = v;
+    return;
   } else {
     first = Number(first);
     operator = v;
+    return;
   };
   return;
 };
@@ -111,6 +116,7 @@ const calculator = buildCalculator();
 calculator.addEventListener("click", (e) => {
   processInput(e.target.value);
   displayInput();
+  console.table({first, second, operator});
   return;
 });
 
