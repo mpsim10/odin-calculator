@@ -1,7 +1,7 @@
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
-const divide = (a, b,) => b === 0 ? "nice try" : a / b;
+const divide = (a, b) => b === 0 ? "nice try" : a / b;
 
 let first;
 let second;
@@ -58,7 +58,7 @@ function clearCalculator() {
 };
 
 function processDigitInput(v) {
-  if (!first) {
+  if (!first || (!isNaN(first) && !operator)) {
     first = v;
   } else if (!operator) {
     first += v;
