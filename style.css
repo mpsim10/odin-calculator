@@ -17,9 +17,10 @@ body {
   width: 400px;
 }
 
-#display {
+#calculator-display {
   background-color: #222;
   border-radius: 10px 10px 0px 0px;
+  height: 58px;
   padding: 5px 10px;
   text-align: end;
   width: 100%;

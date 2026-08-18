@@ -4,6 +4,10 @@ const multiply = (a, b) => a * b;
 const divide = (a, b,) => b === 0 ? "nice try" : a / b;
 const buttonArr = "789/456*123-C0=+".split("");
 
+let nums = [];
+let inputLog = "";
+let operator;
+
 function operate(first, second, operator) {
   let result;
   switch (operator) {
@@ -21,7 +25,29 @@ function operate(first, second, operator) {
     default:
       break;
   };
+  return result;
 };
+
+const clearInputLog = () => inputLog = " ";
+
+function processDigit(v) {
+  inputLog += v;
+};
+
+function processOperator(v) {
+  inputLog += v;
+};
+
+const processInput = (input) => isNaN(input) ? processOperator(input) : processDigit(input);
+
+function buildDisplay() {
+  const div = document.createElement("div");
+  div.id = "calculator-display";
+  div.textContent = "click button";
+  return div;
+};
+
+const displayInput = () => document.getElementById("calculator-display").textContent = inputLog
 
 function buildButtons() {
   const container = document.createElement("div");
@@ -43,10 +69,7 @@ function buildCalculator() {
   const container = document.createElement("div");
   container.id = "calculator-container";
 
-  const display = document.createElement("div");
-  display.id = "display";
-  display.textContent = "display";
-  container.appendChild(display);
+  container.appendChild(buildDisplay());
 
   const buttons = buildButtons();
   buttons.id = "buttons-container";
@@ -56,3 +79,8 @@ function buildCalculator() {
 };
 
 buildCalculator();
+
+document.getElementById("calculator-container").addEventListener("click", (e) => {
+  processInput(e.target.value)
+  displayInput();
+});
