@@ -2,7 +2,7 @@ const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
 const divide = (a, b,) => b === 0 ? "nice try" : a / b;
-const buttonArr = "123/456*789-0=+".split("");
+const buttonArr = "789/456*123-C0=+".split("");
 
 function operate(first, second, operator) {
   let result;
