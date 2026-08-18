@@ -2,9 +2,7 @@ const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
 const divide = (a, b,) => b === 0 ? "nice try" : a / b;
-let first;
-let second;
-let operator;
+const buttonArr = "123/456*789-0=+".split("");
 
 function operate(first, second, operator) {
   let result;
@@ -26,15 +24,19 @@ function operate(first, second, operator) {
 };
 
 function buildButtons() {
-  const buttonArray = "0123456789+-*/=".split("");
-  const buttons = buttonArray.map((button) => document.createElement("button"));
-  buttons.forEach((button, i) => {
-    button.id = `${buttonArray[i]}-button`;
-    button.value = buttonArray[i];
-    button.textContent = buttonArray[i];
-    button.classList.add(button.value.match(/[0-9]/) ? "digit" : "operator");
+  const container = document.createElement("div");
+  container.id = "button-"
+  const elements = buttonArr.map((button) => document.createElement("button"));
+  const isDigit = (v) => !isNaN(Number(v));
+  elements.forEach((button, i) => {
+    const v = buttonArr[i];
+    button.textContent = v;
+    button.id = `button-${v}`;
+    button.value = v;
+    button.classList.add(!isNaN(Number(v)) ? "digit" : "operator");
+    container.appendChild(button);
   });
-  return buttons;
+  return container;
 };
 
 function buildCalculator() {
@@ -43,10 +45,12 @@ function buildCalculator() {
 
   const display = document.createElement("div");
   display.id = "display";
+  display.textContent = "display";
   container.appendChild(display);
 
   const buttons = buildButtons();
-  buttons.forEach(button => container.appendChild(button));
+  buttons.id = "buttons-container";
+  container.appendChild(buttons);
 
   document.body.appendChild(container);
 };
