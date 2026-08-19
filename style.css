@@ -41,7 +41,7 @@ body {
 
 }
 
-.digit {
+.digit, #button-\. {
   background-color: black;
   color: white;
 }
@@ -54,7 +54,11 @@ body {
   background-color: white;
 }
 
-#button-\=, #button-C {
+#button-\=, #button-c {
   aspect-ratio: 2 / 0.8;
   width: 50%;
 }
+
+#button-c, #button-← {
+  background-color: orange;
+};

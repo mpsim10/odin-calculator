@@ -1,12 +1,13 @@
-const add = (a, b) => a + b;
-const subtract = (a, b) => a - b;
-const multiply = (a, b) => a * b;
-const divide = (a, b) => b === 0 ? "nice try" : a / b;
-
 let first;
 let second;
 let operator;
 let thisOperand;
+
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+const divide = (a, b) => b === 0 ? "nice try" : a / b;
+const buttonArr = "c←/789*456-123+0.=".split("");
 const endsWithDecimal = () => thisOperand.indexOf(".") === thisOperand.length - 1;
 
 function buildDisplay() {
@@ -17,7 +18,6 @@ function buildDisplay() {
 const displayDiv = buildDisplay();
 
 function buildButtons() {
-  const buttonArr = "C←/789*456-123+0.=".split("");
   const div = document.createElement("div");
   div.id = "button-container";
   const buttons = buttonArr.map((button) => document.createElement("button"));
@@ -95,7 +95,10 @@ function processDecimal() {
 };
 
 function processBackspace() {
-  if (!second && !!operator) {
+  if (!first) {
+    clearCalculator();
+    return;
+  } else if (!second && !!operator) {
     operator = undefined;
   } else {
     const backspaced = thisOperand.split("").toSpliced(thisOperand.length - 1, 1).join("");
@@ -157,11 +160,35 @@ function buildCalculator() {
 
 const calculator = buildCalculator();
 
-calculator.addEventListener("click", (e) => {
-  processInput(e.target.value);
+function inputListener(v) {
+  processInput(v);
   displayDiv.textContent = thisOperand;
   console.table({first, second, operator});
   return;
+};
+
+calculator.addEventListener("click", (e) => {
+  inputListener(e.target.value);
 });
 
 document.body.appendChild(calculator);
+
+window.addEventListener("keydown", (e) => {
+  const value = () => {
+    switch (e.key) {
+      case "Backspace":
+        return "←";
+        break;
+      case "Enter":
+        return "=";
+        break;
+      default:
+        return e.key;
+        break;
+    };
+  };
+  if (buttonArr.includes(value())) {
+    inputListener(value());
+  };
+  return;
+});
