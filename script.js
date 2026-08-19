@@ -86,7 +86,10 @@ function processEquals() {
 };
 
 function processDecimal() {
-  console.log("decimal");
+  const thisOperand = !operator ? first : second;
+  if (thisOperand === undefined || thisOperand.indexOf(".") === -1) {
+    processDigitInput(".");
+  };
   return;
 };
 
