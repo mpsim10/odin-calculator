@@ -6,6 +6,8 @@ const divide = (a, b) => b === 0 ? "nice try" : a / b;
 let first;
 let second;
 let operator;
+let thisOperand;
+const endsWithDecimal = () => thisOperand.indexOf(".") === thisOperand.length - 1;
 
 function buildDisplay() {
   const div = document.createElement("div");
@@ -57,7 +59,7 @@ function clearCalculator() {
   operator = "";
 };
 
-function processDigitInput(v) {
+function processDigit(v) {
   if (!first) {
     first = v;
   } else if (!operator) {
@@ -77,7 +79,7 @@ function processCalculation() {
 };
 
 function processEquals() {
-  if (!operator || !second) {
+  if ((!operator || !second) || endsWithDecimal()) {
     return;
   } else {
     processCalculation();
@@ -86,19 +88,26 @@ function processEquals() {
 };
 
 function processDecimal() {
-  const thisOperand = !operator ? first : second;
   if (thisOperand === undefined || thisOperand.indexOf(".") === -1) {
-    processDigitInput(".");
+    processDigit(".");
   };
   return;
 };
 
 function processBackspace() {
-  console.log("backspace");
-  return;
+  if (!second && !!operator) {
+    operator = undefined;
+  } else {
+    const backspaced = thisOperand.split("").toSpliced(thisOperand.length - 1, 1).join("");
+    if (thisOperand === first) {
+      first = backspaced;
+    } else {
+      second = backspaced;
+    };
+  };
 };
 
-function processSpecialOperator(v) {
+function processSpecials(v) {
   switch (v) {
     case "C":
       clearCalculator();    
@@ -118,22 +127,23 @@ function processSpecialOperator(v) {
   return;
 };
 
-function processOperatorInput(v) {
+function processOperator(v) {
   if ("C=.←".split("").includes(v)) {
-    processSpecialOperator(v)
+    processSpecials(v);
     return;
-  } else if (!!operator && !!second) {
+  } else if ((!!operator && !!second)) {
     processCalculation();
-  } else {
+  } else if (!endsWithDecimal) {
     first = Number(first);
+    operator = v;
   };
-  operator = v;
   return;
 };
 
-const processInput = (input) => isNaN(input) ? processOperatorInput(input) : processDigitInput(input);
-
-const displayOperand = () => displayDiv.textContent = !second ? first : second;
+function processInput(input) {
+  isNaN(input) ? processOperator(input) : processDigit(input)
+  thisOperand = !operator ? first : second;
+};
 
 function buildCalculator() {
   const container = document.createElement("div");
@@ -147,7 +157,7 @@ const calculator = buildCalculator();
 
 calculator.addEventListener("click", (e) => {
   processInput(e.target.value);
-  displayOperand();
+  displayDiv.textContent = thisOperand;
   console.table({first, second, operator});
   return;
 });
