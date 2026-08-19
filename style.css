@@ -35,7 +35,7 @@ body {
 }
 
 .digit, .operator {
-  aspect-ratio: 1.2 / 1;
+  aspect-ratio: 1 / 0.8;
   font-weight: bold;
   width: 25%;
 
@@ -52,4 +52,9 @@ body {
 
 #button-\= {
   background-color: white;
+}
+
+#button-\=, #button-C {
+  aspect-ratio: 2 / 0.8;
+  width: 50%;
 }

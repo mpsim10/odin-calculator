@@ -15,7 +15,7 @@ function buildDisplay() {
 const displayDiv = buildDisplay();
 
 function buildButtons() {
-  const buttonArr = "789/456*123-C0=+".split("");
+  const buttonArr = "C←/789*456-123+0.=".split("");
   const div = document.createElement("div");
   div.id = "button-container";
   const buttons = buttonArr.map((button) => document.createElement("button"));
@@ -70,7 +70,7 @@ function processDigitInput(v) {
 
 function processCalculation() {
   second = Number(second);
-  const result = operate(first, second, operator);
+  const result = Math.round(operate(first, second, operator) * 1000) / 1000;
   clearCalculator();
   first = result;
   return;
@@ -85,28 +85,52 @@ function processEquals() {
   };
 };
 
+function processDecimal() {
+  console.log("decimal");
+  return;
+};
+
+function processBackspace() {
+  console.log("backspace");
+  return;
+};
+
+function processSpecialOperator(v) {
+  switch (v) {
+    case "C":
+      clearCalculator();    
+      break;
+    case "=":
+      processEquals();
+      break;
+    case ".":
+      processDecimal();
+      break;
+    case "←":
+      processBackspace();
+      break;
+    default:
+      break;
+  };
+  return;
+};
+
 function processOperatorInput(v) {
-  if (v === "C") {
-    clearCalculator();
-    return;
-  } else if (v === "=") {
-    processEquals();
+  if ("C=.←".split("").includes(v)) {
+    processSpecialOperator(v)
     return;
   } else if (!!operator && !!second) {
     processCalculation();
-    operator = v;
-    return;
   } else {
     first = Number(first);
-    operator = v;
-    return;
   };
+  operator = v;
   return;
 };
 
 const processInput = (input) => isNaN(input) ? processOperatorInput(input) : processDigitInput(input);
 
-const displayInput = () => displayDiv.textContent = !second ? first : second;
+const displayOperand = () => displayDiv.textContent = !second ? first : second;
 
 function buildCalculator() {
   const container = document.createElement("div");
@@ -120,7 +144,7 @@ const calculator = buildCalculator();
 
 calculator.addEventListener("click", (e) => {
   processInput(e.target.value);
-  displayInput();
+  displayOperand();
   console.table({first, second, operator});
   return;
 });
