@@ -131,11 +131,13 @@ function processOperator(v) {
   if ("C=.←".split("").includes(v)) {
     processSpecials(v);
     return;
-  } else if ((!!operator && !!second)) {
-    processCalculation();
-  } else if (!endsWithDecimal) {
-    first = Number(first);
-    operator = v;
+  } else if (!endsWithDecimal()) {
+    if ((!!operator && !!second)) {
+      processCalculation();
+    } else {
+      first = Number(first);
+      operator = v;
+    };
   };
   return;
 };
